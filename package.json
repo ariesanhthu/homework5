@@ -1,4 +1,12 @@
 {
+  "name": "canvas-video-edge-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local demo website for realtime edge detection on video frames using HTML5 Canvas.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "express": "^4.17.3"
   }

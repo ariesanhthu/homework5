@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Realtime Video Edge Detection Demo</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2308111f'/%3E%3Cpath d='M12 45h10l7-24 8 30 6-18h9' fill='none' stroke='%2376b7ff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <h1>Homework 5</h1>
+        <h2>23127266 - Nguyễn Anh Thư</h2>
+      </header>
+
+      <section class="controls card">
+        <label class="file-picker" for="videoFile">
+          <span>Select a local video</span>
+          <input
+            id="videoFile"
+            type="file"
+            accept="video/*"
+            aria-label="Select a local video file"
+          />
+        </label>
+
+        <button id="loadDefaultButton" type="button">Load Default Sample</button>
+        <button id="playPauseButton" type="button" disabled>Play</button>
+
+        <div class="tuning-group">
+          <label class="control-field" for="thresholdMode">
+            <span>Threshold mode</span>
+            <select id="thresholdMode" aria-label="Threshold mode">
+              <option value="manual" selected>Manual</option>
+              <option value="adaptive">Adaptive</option>
+            </select>
+          </label>
+
+          <label class="control-field control-field--wide" for="thresholdSlider">
+            <span id="thresholdLabel">High threshold</span>
+            <input
+              id="thresholdSlider"
+              type="range"
+              min="20"
+              max="180"
+              step="1"
+              value="72"
+              aria-label="Canny threshold control"
+            />
+          </label>
+        </div>
+
+        <div class="status-group">
+          <p id="statusMessage" class="status">
+            Choose a video or load the bundled default sample.
+          </p>
+          <p class="hint">
+            Default sample is bundled locally from the HTML5 Doctor demo source.
+          </p>
+          <p id="thresholdSummary" class="config"></p>
+          <p class="config">
+            Processing scale: <code>0.35</code> | Pipeline:
+            <code>Gaussian blur + Sobel + NMS + Hysteresis</code>
+          </p>
+        </div>
+      </section>
+
+      <section class="media-grid">
+        <article class="panel card">
+          <div class="panel-header">
+            <h2>Original Video</h2>
+            <span>Local playback only</span>
+          </div>
+          <div id="videoSurface" class="media-frame">
+            <video
+              id="sourceVideo"
+              controls
+              playsinline
+              preload="metadata"
+              crossorigin="anonymous"
+            ></video>
+          </div>
+        </article>
+
+        <article class="panel card">
+          <div class="panel-header">
+            <h2>Edge Realtime Canvas</h2>
+            <span>Canny edge detection</span>
+          </div>
+          <div id="canvasSurface" class="media-frame">
+            <canvas
+              id="edgeCanvas"
+              aria-label="Realtime edge detection output"
+            ></canvas>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
