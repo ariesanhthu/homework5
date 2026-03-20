@@ -48,6 +48,8 @@ const processingContext = processingCanvas.getContext("2d", {
 const state = {
   animationFrameId: null,
   objectUrl: null,
+  autoPlayPending: false,
+  autoPlayCanPlayHandler: null,
   lastProcessedTime: -1,
   grayscaleBuffer: null,
   blurTempBuffer: null,
@@ -81,11 +83,14 @@ window.addEventListener("resize", resizeCanvases);
 
 syncThresholdControls();
 resetDisplay();
+setupDefaultVideo(true);
 
 function setupVideo(file) {
   elements.video.pause();
   stopProcessing();
   resetDisplay();
+  clearAutoPlayCanPlayHandler();
+  state.autoPlayPending = false;
 
   if (!file) {
     clearLoadedVideo();
@@ -111,19 +116,39 @@ function setupVideo(file) {
   updateStatus(`Loaded "${file.name}". Waiting for metadata...`);
 }
 
-function setupDefaultVideo() {
+function setupDefaultVideo(autoPlay = false) {
   elements.video.pause();
   stopProcessing();
   resetDisplay();
   releaseObjectUrl();
+  clearAutoPlayCanPlayHandler();
+  state.autoPlayPending = autoPlay;
 
   elements.fileInput.value = "";
   elements.video.src = DEFAULT_VIDEO.path;
   elements.video.load();
   elements.playPauseButton.disabled = true;
-  updateStatus(
-    `Loaded default sample from ${DEFAULT_VIDEO.label}. Waiting for metadata...`
-  );
+  updateStatus(`Loaded default sample from ${DEFAULT_VIDEO.label}. Waiting for metadata...`);
+
+  if (!autoPlay) {
+    return;
+  }
+
+  const attemptAutoPlay = () => {
+    state.autoPlayCanPlayHandler = null;
+    state.autoPlayPending = false;
+    elements.video.play().catch(() => {
+      updateStatus("Default sample ready. Autoplay is blocked by browser, press Play.");
+    });
+  };
+
+  if (elements.video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+    attemptAutoPlay();
+    return;
+  }
+
+  state.autoPlayCanPlayHandler = attemptAutoPlay;
+  elements.video.addEventListener("canplay", attemptAutoPlay, { once: true });
 }
 
 function startProcessing() {
@@ -573,7 +598,7 @@ function resizeCanvases() {
   elements.playPauseButton.disabled = !elements.video.currentSrc;
   syncPlayPauseButton();
 
-  if (elements.video.currentSrc) {
+  if (elements.video.currentSrc && !state.autoPlayPending) {
     updateStatus("Video ready. Press play to start processing.");
   }
 }
@@ -648,6 +673,8 @@ function clearCanvas() {
 
 function clearLoadedVideo() {
   releaseObjectUrl();
+  clearAutoPlayCanPlayHandler();
+  state.autoPlayPending = false;
 
   elements.video.removeAttribute("src");
   elements.video.load();
@@ -659,6 +686,13 @@ function releaseObjectUrl() {
   if (state.objectUrl) {
     URL.revokeObjectURL(state.objectUrl);
     state.objectUrl = null;
+  }
+}
+
+function clearAutoPlayCanPlayHandler() {
+  if (state.autoPlayCanPlayHandler) {
+    elements.video.removeEventListener("canplay", state.autoPlayCanPlayHandler);
+    state.autoPlayCanPlayHandler = null;
   }
 }
 

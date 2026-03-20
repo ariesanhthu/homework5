@@ -1,0 +1,71 @@
+\chapter{Introduction}
+This project builds a simple web application using HTML5 \texttt{<video>} and Canvas to perform real-time edge detection on every frame while the video is playing. All processing runs locally in the browser with client-side JavaScript, and the detected edges are rendered immediately beside the original video.
+
+\chapter{Access, Setup, and Usage}
+\section{Access}
+\begin{itemize}
+  \item \textbf{GitHub repository:} \url{https://github.com/ariesanhthu/homework5}
+  \item \textbf{GitHub Pages:} \url{https://ariesanhthu.github.io/homework5/}
+\end{itemize}
+
+\section{Local setup}
+The app can be tested locally by installing dependencies and starting the Node.js server (then opening the local address in a browser).
+
+\section{Usage}
+Select a local video file, press \texttt{Play}, and observe two synchronized views: the original video on one side and the edge map on the Canvas output on the other side. Processing automatically pauses when the video is paused or ended.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\linewidth]{img/result.PNG}
+  \caption{Example edge output from the real-time pipeline (per-frame processing).}
+\end{figure}
+
+\chapter{Implementation}
+\section{Interface structure}
+The UI is centered around a video element as the input source and a Canvas element as the output surface. An offscreen Canvas is used internally for pixel processing, while the visible Canvas displays the final edge image.
+
+\section{Client-side functions used}
+The main workflow is driven by video playback events and a real-time render loop. Key browser/Canvas functions include:
+\texttt{play()}, \texttt{pause()}, \texttt{addEventListener()}, \texttt{URL.createObjectURL()},
+\texttt{getContext('2d')}, \texttt{drawImage()}, \texttt{getImageData()}, \texttt{putImageData()},
+\texttt{clearRect()}, \texttt{requestAnimationFrame()}, and \texttt{cancelAnimationFrame()}.
+
+\section{Extracting frames (pixel buffers)}
+Instead of processing the raw video file directly, the system processes the \emph{currently displayed frame}. In each loop iteration, the current video frame is drawn onto the internal processing Canvas via \texttt{drawImage()}, then pixel data is retrieved with \texttt{getImageData()}. After the edge pipeline finishes, the processed edge buffer is written back with \texttt{putImageData()} and the visible Canvas is updated for the user.
+
+\section{Pixel-level edge detection (Canny-style)}
+The edge detection pipeline is a compact Canny-style implementation optimized for per-frame processing:
+\begin{enumerate}
+  \item \textbf{Grayscale conversion:} RGB is converted to intensity using integer weights equivalent to $0.299R + 0.587G + 0.114B$ (implemented with weights \texttt{77/150/29} and a shift for speed).
+  \item \textbf{Noise reduction:} a separable Gaussian blur is applied with a 5-tap kernel shaped as $[1,4,6,4,1]/16$ using two passes (horizontal then vertical) to reduce computation.
+  \item \textbf{Gradient estimation (Sobel):} gradients in $x$ and $y$ directions are computed using the Sobel stencil, then the gradient magnitude is measured (using \texttt{hypot}) and the gradient direction is quantized into 4 main bins: $0^\circ$, $45^\circ$, $90^\circ$, and $135^\circ$.
+  \item \textbf{Non-maximum suppression (NMS):} for each interior pixel, the magnitude is compared with two neighbors aligned to the quantized direction; only local maxima are kept, suppressing thick edges.
+  \item \textbf{Thresholding + hysteresis:} thresholds are resolved either in \emph{manual} mode or \emph{adaptive} mode. Pixels classified as \emph{strong} ($\geq$ high threshold) start a stack-based propagation; \emph{weak} pixels (between low and high) are promoted to strong if connected in the 8-neighborhood. The output is a binary edge map encoded as intensity values (0 or 255).
+\end{enumerate}
+
+\section{Real-time scheduling}
+The processing loop uses \texttt{requestAnimationFrame()} to stay synchronized with browser rendering. To reduce redundant work, frames are skipped when the video timestamp changes less than a small interval (approximately targeting 120 FPS processing behavior).
+
+\chapter{Processing Flow}
+\[
+\text{Video Input}
+\rightarrow \text{Extract Current Frame}
+\rightarrow \text{Grayscale}
+\rightarrow \text{Separable Gaussian Blur}
+\rightarrow \text{Sobel Gradients}
+\rightarrow \text{Quantize Direction + Non-Maximum Suppression}
+\rightarrow \text{Hysteresis Thresholding}
+\rightarrow \text{Canvas Edge Output}
+\]
+
+\chapter{Limitations and Future Work}
+\begin{itemize}
+  \item Performance depends on processing resolution and device capabilities (larger videos may reduce frame rate).
+  \item Edge quality can be sensitive to threshold configuration and to the selected blur scale.
+  \item The implementation is designed for interactivity and may not match the accuracy of specialized optimized vision libraries.
+\end{itemize}
+
+Possible improvements include using \emph{OffscreenCanvas} or \emph{Web Workers} to move pixel processing off the main thread, and adding more parameter controls (e.g., dynamic thresholding strategies tuned to scene statistics).
+
+\chapter{Conclusion}
+Overall, this project demonstrates a real-time, local edge detection website using HTML5 Video and Canvas. The pipeline performs grayscale conversion, separable Gaussian blur, Sobel gradients, non-maximum suppression, and hysteresis thresholding directly on pixel buffers extracted from the video element.

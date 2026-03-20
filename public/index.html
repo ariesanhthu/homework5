@@ -13,13 +13,15 @@
   <body>
     <main class="page">
       <header class="hero">
+        <div class="hero-meta">
+          <span class="hero-id">23127266 - Nguyễn Anh Thư</span>
+        </div>
         <h1>Homework 5</h1>
-        <h2>23127266 - Nguyễn Anh Thư</h2>
       </header>
 
-      <section class="controls card">
+      <section class="upload-strip">
         <label class="file-picker" for="videoFile">
-          <span>Select a local video</span>
+          <span>Select local video</span>
           <input
             id="videoFile"
             type="file"
@@ -27,10 +29,36 @@
             aria-label="Select a local video file"
           />
         </label>
+        <div class="upload-actions">
+          <button id="loadDefaultButton" class="btn btn-primary" type="button">
+            Load sample
+          </button>
+          <button id="playPauseButton" class="btn btn-play" type="button" disabled>
+            Play
+          </button>
+        </div>
+      </section>
 
-        <button id="loadDefaultButton" type="button">Load Default Sample</button>
-        <button id="playPauseButton" type="button" disabled>Play</button>
+      <section class="media-grid">
+        <div id="videoSurface" class="media-frame">
+          <video
+            id="sourceVideo"
+            controls
+            playsinline
+            preload="metadata"
+            crossorigin="anonymous"
+          ></video>
+        </div>
 
+        <div id="canvasSurface" class="media-frame">
+          <canvas
+            id="edgeCanvas"
+            aria-label="Realtime edge detection output"
+          ></canvas>
+        </div>
+      </section>
+
+      <section class="controls">
         <div class="tuning-group">
           <label class="control-field" for="thresholdMode">
             <span>Threshold mode</span>
@@ -53,51 +81,17 @@
             />
           </label>
         </div>
-
-        <div class="status-group">
-          <p id="statusMessage" class="status">
-            Choose a video or load the bundled default sample.
-          </p>
-          <p class="hint">
-            Default sample is bundled locally from the HTML5 Doctor demo source.
-          </p>
-          <p id="thresholdSummary" class="config"></p>
-          <p class="config">
-            Processing scale: <code>0.35</code> | Pipeline:
-            <code>Gaussian blur + Sobel + NMS + Hysteresis</code>
-          </p>
-        </div>
       </section>
 
-      <section class="media-grid">
-        <article class="panel card">
-          <div class="panel-header">
-            <h2>Original Video</h2>
-            <span>Local playback only</span>
-          </div>
-          <div id="videoSurface" class="media-frame">
-            <video
-              id="sourceVideo"
-              controls
-              playsinline
-              preload="metadata"
-              crossorigin="anonymous"
-            ></video>
-          </div>
-        </article>
-
-        <article class="panel card">
-          <div class="panel-header">
-            <h2>Edge Realtime Canvas</h2>
-            <span>Canny edge detection</span>
-          </div>
-          <div id="canvasSurface" class="media-frame">
-            <canvas
-              id="edgeCanvas"
-              aria-label="Realtime edge detection output"
-            ></canvas>
-          </div>
-        </article>
+      <section class="status-group">
+        <p id="statusMessage" class="status">
+          Choose a video or load the bundled default sample.
+        </p>
+        <p class="hint">
+          Default sample is bundled locally from the HTML5 Doctor demo source.
+        </p>
+        <p id="thresholdSummary" class="config">Manual: high = 72, low = 32.</p>
+        <p class="config">Processing scale: <code>0.35</code></p>
       </section>
     </main>
 

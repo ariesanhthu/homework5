@@ -1,0 +1,162 @@
+\documentclass[11pt]{report}
+\usepackage{microtype}
+\SetProtrusion{encoding=T5,family=lmtt}{protrusion=false}
+\sloppy
+
+\usepackage{forest}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{longtable}
+\captionsetup[table]{skip=6pt}
+
+\usepackage{hcmus-report-template}
+\usepackage[shortlabels]{enumitem}
+\usepackage{tocloft}
+
+%--------------------------------------------------
+% Paragraph layout
+%--------------------------------------------------
+\usepackage{indentfirst}
+\setlength{\parindent}{3em}
+\setlength{\parskip}{0pt}
+\renewcommand{\baselinestretch}{1.2}
+
+%--------------------------------------------------
+% Sectioning
+%--------------------------------------------------
+\usepackage{titlesec}
+
+% ===== CHAPTER FORMAT =====
+% Đánh số chương bằng số La Mã, KHÔNG có dấu ":" ở \thechapter
+\renewcommand{\thechapter}{\Roman{chapter}}
+
+% Format heading chương: "Chapter I: Introduction"
+\titleformat{\chapter}[block]
+  {\normalfont\Large\bfseries\centering}
+  {Chapter \thechapter:}{0.5ex}{}
+
+% ===== SECTION NUMBERING =====
+% Section trong mỗi chapter sẽ là 1,2,3,... (không hiện số chương)
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+
+% ===== SUBSUBSUBSECTION =====
+\titleclass{\subsubsubsection}{straight}[\subsubsection]
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand{\thesubsubsubsection}{\thesubsubsection.\arabic{subsubsubsection}}
+
+% ===== HEADING FORMAT =====
+\titleformat{\section}{\normalfont\normalsize\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\thesubsubsection}{0.5em}{}
+\titleformat{\subsubsubsection}{\normalfont\normalsize\bfseries}{\thesubsubsubsection}{0.5em}{}
+
+% ===== SPACING =====
+\titlespacing*{\chapter}{0pt}{0.5em}{0.5em}
+\titlespacing*{\section}{0em}{0.3em}{0.2em}
+\titlespacing*{\subsection}{1em}{0.3em}{0.2em}
+\titlespacing*{\subsubsection}{1em}{0.3em}{0.2em}
+\titlespacing*{\subsubsubsection}{1em}{0.3em}{0.2em}
+
+% ===== DEPTH =====
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+% ===== RESET COUNTERS THEO CHAPTER =====
+\makeatletter
+\@addtoreset{section}{chapter}
+\@addtoreset{subsection}{chapter}
+\@addtoreset{subsubsection}{chapter}
+\makeatother
+
+%--------------------------------------------------
+% TOC – subsubsubsection
+%--------------------------------------------------
+\makeatletter
+\def\toclevel@subsubsubsection{4}
+\newcommand{\l@subsubsubsection}{\@dottedtocline{4}{7em}{4em}}
+\makeatother
+
+%--------------------------------------------------
+% TOC formatting với tocloft
+%--------------------------------------------------
+
+% 1. Dòng CHAPTER trong TOC: "Chapter I: Introduction"
+\renewcommand{\cftchapfont}{\bfseries}         % chữ đậm
+\renewcommand{\cftchappagefont}{\bfseries}     % số trang đậm
+
+% Thêm tiền tố & hậu tố quanh số chương
+\renewcommand{\cftchappresnum}{Chapter~}
+\renewcommand{\cftchapaftersnum}{:\ }          % ra "Chapter I:"
+
+% Độ rộng phần số chương trong TOC (tránh dính chữ)
+\setlength{\cftchapnumwidth}{5em}              % tăng nếu vẫn bị dính
+
+% Khoảng cách trước mỗi dòng chapter trong TOC
+\setlength{\cftbeforechapskip}{0.4em}
+
+% 2. Indent cho các level con trong TOC
+\cftsetindents{chapter}{0em}{8em}              % label 0em, number width 5em
+\cftsetindents{section}{5em}{3em}
+\cftsetindents{subsection}{8em}{3em}
+\cftsetindents{subsubsection}{11em}{3em}
+
+% Độ rộng cột số trang
+\cftsetpnumwidth{2.5em}
+
+% hcmus-report-template đã load hyperref, nên chỉ cần hypersetup
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+}
+
+%--------------------------------------------------
+% Report info
+%--------------------------------------------------
+\newcommand{\coursename}{Applications of Computer Graphics}
+\newcommand{\reporttitle}{Report}
+\newcommand{\reportname}{Week 5}
+
+\newcommand{\studentname}{23127266 - Nguyễn Anh Thư}
+\newcommand{\teachername}{Nguyễn Trọng Việt \\ Phạm Thanh Tùng \\ Võ Thế Hào}
+
+% Header
+\lhead{Week 2}
+\rhead{
+\coursename
+}
+
+\setlength{\cftbeforelottitleskip}{2em}   % trước title
+\setlength{\cftafterlottitleskip}{1em}      % sau title
+% ============ DOCUMENT ============
+\begin{document}
+
+% Set English as default language for document (table of contents, list of figures, etc.)
+\selectlanguage{english}
+
+\pagenumbering{roman}
+\input{content/title.tex}
+
+\input{ref/ack.tex}
+
+\tableofcontents
+\clearpage
+% \listoffigures
+% \clearpage
+% \listoftables
+% \clearpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{content/content.tex}
+
+\nocite{*}
+\input{ref/ref}
+
+% Appendix
+\appendix
+
+\end{document}
