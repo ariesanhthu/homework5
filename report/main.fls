@@ -509,6 +509,7 @@ INPUT F:\ANHTHU\programs\Miktex\tex\latex\lm\ts1lmr.fd
 INPUT F:\ANHTHU\programs\Miktex\tex\latex\lm\ts1lmr.fd
 INPUT F:\ANHTHU\programs\Miktex\tex\latex\lm\ts1lmr.fd
 INPUT F:\ANHTHU\programs\Miktex\fonts\tfm\public\lm\ts1-lmr10.tfm
+INPUT F:\ANHTHU\programs\Miktex\fonts\tfm\public\lm\t5-lmri10.tfm
 INPUT .\img\result.PNG
 INPUT .\img\result.PNG
 INPUT .\img\result.PNG
@@ -517,12 +518,6 @@ INPUT .\img\result.PNG
 INPUT .\img\result.PNG
 INPUT .\img\result.PNG
 INPUT F:\ANHTHU\programs\Miktex\fonts\enc\dvips\lm\lm-ts1.enc
-INPUT F:\ANHTHU\programs\Miktex\fonts\tfm\public\lm\t5-lmri10.tfm
-INPUT F:\ANHTHU\programs\Miktex\fonts\enc\dvips\lm\lm-rm.enc
-INPUT F:\ANHTHU\programs\Miktex\fonts\enc\dvips\lm\lm-mathit.enc
-INPUT F:\ANHTHU\programs\Miktex\fonts\enc\dvips\lm\lm-mathsy.enc
-INPUT F:\ANHTHU\programs\Miktex\fonts\tfm\public\lm\t5-lmr8.tfm
-INPUT F:\ANHTHU\programs\Miktex\fonts\tfm\public\lm\t5-lmr6.tfm
 INPUT .\ref\ref.tex
 INPUT .\ref\ref.tex
 INPUT .\ref\ref.tex
@@ -540,8 +535,6 @@ INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmbx12.pfb
 INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmbx12.pfb
 INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmcsc10.pfb
 INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmcsc10.pfb
-INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmmi10.pfb
-INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmmi10.pfb
 INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmr10.pfb
 INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmr10.pfb
 INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmr12.pfb
@@ -550,9 +543,5 @@ INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmri10.pfb
 INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmri10.pfb
 INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmri12.pfb
 INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmri12.pfb
-INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmsy10.pfb
-INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmsy10.pfb
-INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmsy8.pfb
-INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmsy8.pfb
 INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmtt10.pfb
 INPUT F:\ANHTHU\programs\Miktex\fonts\type1\public\lm\lmtt10.pfb

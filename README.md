@@ -1,4 +1,6 @@
-# Realtime Video Edge Detection Demo
+# Video - Edge Detection
+
+Truy cập trang web tại đường dẫn: https://ariesanhthu.github.io/homework5/
 
 Demo website chạy hoàn toàn local với:
 
@@ -109,4 +111,4 @@ GitHub Pages không chạy được Express hoặc bất kỳ Node server runtim
 - Dùng canvas xử lý nhỏ hơn với `processingScale = 0.35`.
 - Tái sử dụng typed arrays cho grayscale, blur, gradient magnitude, direction, edge output và stack hysteresis.
 - Ưu tiên realtime và độ mượt hơn độ chính xác tuyệt đối.
-"# homework5" 
+  "# homework5"
